@@ -22,6 +22,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:partner_demo/core/api/api_exception.dart';
 import 'package:partner_demo/data/repositories/partner_repositories.dart';
 import '../../domain/enums/partner_enums.dart';
 import '../../domain/models/partner_model.dart';
@@ -105,7 +106,8 @@ class PartnerFormNotifier extends StateNotifier<PartnerFormState> {
       );
       return saved;
     } catch (error) {
-      state = state.copyWith(saving: false, error: error.toString());
+      final msg = error is ApiException ? error.fullMessage : error.toString();
+      state = state.copyWith(saving: false, error: msg);
       return null;
     }
   }
@@ -124,7 +126,8 @@ class PartnerFormNotifier extends StateNotifier<PartnerFormState> {
         successMessage: 'Partner activated.',
       );
     } catch (error) {
-      state = state.copyWith(saving: false, error: error.toString());
+      final msg = error is ApiException ? error.fullMessage : error.toString();
+      state = state.copyWith(saving: false, error: msg);
     }
   }
 
@@ -142,7 +145,8 @@ class PartnerFormNotifier extends StateNotifier<PartnerFormState> {
         successMessage: 'Partner blocked.',
       );
     } catch (error) {
-      state = state.copyWith(saving: false, error: error.toString());
+      final msg = error is ApiException ? error.fullMessage : error.toString();
+      state = state.copyWith(saving: false, error: msg);
     }
   }
 

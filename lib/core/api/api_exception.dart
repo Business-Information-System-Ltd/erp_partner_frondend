@@ -20,19 +20,48 @@
  *   2026-06-04
  */
 
+// class ApiException implements Exception {
+//   const ApiException({
+//     required this.message,
+//     this.statusCode,
+//     this.validationErrors = const <String, List<String>>{},
+//   });
+
+//   final String message;
+//   final int? statusCode;
+//   final Map<String, List<String>> validationErrors;
+
+//   bool get hasValidationErrors => validationErrors.isNotEmpty;
+
+//   @override
+//   String toString() => message;
+// }
+
 class ApiException implements Exception {
   const ApiException({
     required this.message,
     this.statusCode,
     this.validationErrors = const <String, List<String>>{},
+    this.responseData,
   });
 
   final String message;
   final int? statusCode;
   final Map<String, List<String>> validationErrors;
+  final dynamic responseData; // raw server response
 
   bool get hasValidationErrors => validationErrors.isNotEmpty;
 
+  String get fullMessage {
+    final buffer = StringBuffer();
+    if (statusCode != null) buffer.write('HTTP $statusCode: ');
+    buffer.write(message);
+    if (hasValidationErrors) {
+      buffer.write(' – Validation: $validationErrors');
+    }
+    return buffer.toString();
+  }
+
   @override
-  String toString() => message;
+  String toString() => fullMessage;
 }

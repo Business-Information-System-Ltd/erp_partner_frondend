@@ -20,8 +20,9 @@
  *   2026-06-04
  */
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:partner_demo/core/api/api_exception.dart';
 import 'package:partner_demo/data/repositories/partner_repositories.dart';
 import '../../domain/enums/partner_enums.dart';
 import '../../domain/models/partner_model.dart';
@@ -110,7 +111,8 @@ class PartnerListNotifier extends StateNotifier<PartnerListState> {
         clearError: true,
       );
     } catch (error) {
-      state = state.copyWith(loading: false, error: error.toString());
+      final msg = error is ApiException ? error.fullMessage : error.toString();
+      state = state.copyWith(loading: false, error: msg);
     }
   }
 

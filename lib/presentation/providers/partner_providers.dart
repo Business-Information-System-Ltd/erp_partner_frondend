@@ -28,7 +28,8 @@ import '../../data/services/partner_api_service.dart';
 
 const partnerApiBaseUrl = String.fromEnvironment(
   'API_BASE_URL',
-  defaultValue: 'http://127.0.0.1:8000',
+  defaultValue:
+      'https://erppartner-hxbtdjc8hyh0cfcn.canadacentral-01.azurewebsites.net',
 );
 
 final apiClientProvider = Provider<ApiClient>((ref) {
